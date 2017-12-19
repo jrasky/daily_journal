@@ -1,0 +1,19 @@
+{
+  "name": "daily_journal",
+  "version": "0.0.1",
+  "description": "A daily activity journal",
+  "author": "Jerome Rasky",
+  "license": "MPL-2.0",
+  "dependencies": {
+    "babel-core": "^6.26.0",
+    "babel-preset-env": "^1.6.1",
+    "babel-preset-react": "^6.24.1",
+    "browser-sync": "^2.18.13",
+    "gulp": "^3.9.1",
+    "gulp-babel": "^7.0.0",
+    "gulp-clean": "^0.3.2",
+    "react": "^16.2.0",
+    "react-dom": "^16.2.0",
+    "webpack-stream": "^4.0.0"
+  }
+}
