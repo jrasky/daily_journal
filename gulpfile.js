@@ -17,7 +17,7 @@ gulp.task('clean', function () {
         .pipe(clean());
 });
 
-gulp.task('serve', ['default'], function () {
+gulp.task('serve', ['html'], function () {
     browserSync.init({
         server: {
             baseDir: webpackConfig.output.path,

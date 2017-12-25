@@ -2,11 +2,11 @@ const webpack = require('webpack');
 
 module.exports = {
     entry: [
-        'babel-polyfill',
         'webpack-hot-middleware/client',
         'react-hot-loader/patch',
-        __dirname + '/src/app.js'
+        __dirname + '/src/app.tsx'
     ],
+    devtool: 'source-map',
     output: {
         path: __dirname + '/dist',
         publicPath: '/',
@@ -15,14 +15,18 @@ module.exports = {
     module: {
         rules: [
             {
-                test: /\.jsx?$/,
-                exclude: /node_modules/,
-                loaders: ['babel-loader']
+                test: /\.tsx?$/,
+                loader: 'awesome-typescript-loader'
+            },
+            {
+                enforce: 'pre',
+                test: /.js$/,
+                loader: 'source-map-loader'
             }
         ]
     },
     resolve: {
-        extensions: ['.js', '.jsx']
+        extensions: ['.ts', '.tsx', '.js', '.jsx']
     },
     plugins: [
         new webpack.HotModuleReplacementPlugin()
