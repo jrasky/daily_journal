@@ -1,12 +1,24 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import { AppContainer } from 'react-hot-loader';
+import { Provider } from 'react-redux';
+
+import { createStore } from 'redux';
 
 import Post from './Post';
 
+import { rootReducer } from './actions';
+
+const store = createStore(
+    rootReducer,
+    (window as any).__REDUX_DEVTOOLS_EXTENSION__ && (window as any).__REDUX_DEVTOOLS_EXTENSION__()
+);
+
 ReactDOM.render(
     <AppContainer>
-        <Post title='Test Post' body='Test post content.' />
+        <Provider store={store}>
+            <Post />
+        </Provider>
     </AppContainer>,
     document.getElementById('root')
 );
