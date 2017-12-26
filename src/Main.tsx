@@ -1,11 +1,57 @@
 import * as React from 'react';
+import * as moment from 'moment';
+import { connect } from 'react-redux';
+import { Map } from 'immutable';
 
+import { IState, addPost } from './actions';
+import { IPost } from './types';
 import PostList from './PostList';
-import NewPost from './NewPost';
+import PostController from './PostController';
+import { Dispatch } from 'redux';
 
-export default function Main() {
-    return <div>
-        <PostList />
-        <NewPost />
-    </div>;
+export interface MainProps {
+    onAddPost: (post: IPost) => void,
+    posts: Map<string, IPost>
 }
+
+export class Main extends React.PureComponent<MainProps> {
+    render() {
+        return <div>
+            <PostController
+                post={this.props.posts.get(Main.getCurrentPostId(), Main.getDefaultCurrentPost())}
+                editing={!this.props.posts.has(Main.getCurrentPostId())} />
+            <PostList
+                posts={this.props.posts.remove(Main.getCurrentPostId()).valueSeq().toArray()} />
+        </div>;
+    }
+
+    onPostSubmit(post: IPost) {
+        this.props.onAddPost(post);
+    }
+
+    static getDefaultCurrentPost() {
+        return {
+            id: Main.getCurrentPostId(),
+            title: moment().subtract(4, 'hours').format('LL'),
+            body: ''
+        };
+    }
+
+    static getCurrentPostId() {
+        return moment().subtract(4, 'hours').format('YYYYDDDD');
+    }
+}
+
+function mapStateToProps(state: IState) {
+    return {
+        posts: state
+    };
+}
+
+function mapDispatchToProps(dispatch: Dispatch<IState>) {
+    return {
+        onAddPost: (post: IPost) => { dispatch(addPost(post)) }
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Main)

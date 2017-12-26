@@ -1,13 +1,12 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
-import { v4 as uuid } from 'uuid';
 
 import { IPost } from './types';
 import { IState, addPost } from './actions';
 import { Dispatch } from 'redux';
 
 export interface PostFormProps {
-    id?: string,
+    id: string,
     title?: string,
     body?: string,
     onSubmit: (post: IPost) => void
@@ -28,7 +27,7 @@ export class PostForm extends React.PureComponent<PostFormProps, PostFormState> 
 
     initialState() {
         return {
-            id: this.props.id || uuid(),
+            id: this.props.id,
             title: this.props.title || '',
             body: this.props.body || ''
         };

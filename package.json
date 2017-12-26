@@ -15,6 +15,7 @@
     "gulp": "^3.9.1",
     "gulp-clean": "^0.3.2",
     "immutable": "^3.8.2",
+    "moment": "^2.20.1",
     "prop-types": "^15.6.0",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
@@ -23,7 +24,6 @@
     "redux": "^3.7.2",
     "source-map-loader": "^0.2.3",
     "typescript": "^2.6.2",
-    "uuid": "^3.1.0",
     "webpack": "^3.10.0",
     "webpack-dev-middleware": "^2.0.3",
     "webpack-hot-middleware": "^2.21.0"
