@@ -2,6 +2,7 @@ const path = require('path');
 const gulp = require('gulp');
 const clean = require('gulp-clean');
 const webpack = require('webpack');
+const webpackStream = require('webpack-stream');
 const browserSync = require('browser-sync').create();
 const webpackDevMiddleware = require('webpack-dev-middleware');
 const webpackHotMiddleware = require('webpack-hot-middleware');
@@ -37,13 +38,9 @@ gulp.task('serve', ['html'], function () {
 })
 
 gulp.task('webpack', function (k) {
-    bundler.run((err, stats) => {
-        if (err) {
-            k(err);
-        } else {
-            k();
-        }
-    })
+    gulp.src('src/app.tsx')
+        .pipe(webpackStream(webpackConfig))
+        .pipe(gulp.dest('dist'));
 });
 
 gulp.task('html', function () {

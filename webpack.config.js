@@ -19,6 +19,11 @@ module.exports = {
                 loader: 'awesome-typescript-loader'
             },
             {
+                test: /\.tsx?$/,
+                enforce: 'pre',
+                loader: 'tslint-loader'
+            },
+            {
                 enforce: 'pre',
                 test: /.js$/,
                 loader: 'source-map-loader'
