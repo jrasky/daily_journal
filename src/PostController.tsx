@@ -23,7 +23,7 @@ export class PostController extends React.PureComponent<PostControllerProps, Pos
         super(props);
 
         this.state = {
-            editing: !!this.props.editing
+            editing: false
         };
     }
 
@@ -46,7 +46,7 @@ export class PostController extends React.PureComponent<PostControllerProps, Pos
     }
 
     render() {
-        if (this.state.editing) {
+        if (this.props.editing || this.state.editing) {
             return <div>
                 <PostForm
                     id={this.props.post.id}

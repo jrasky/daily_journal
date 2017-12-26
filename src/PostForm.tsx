@@ -13,7 +13,6 @@ export interface PostFormProps {
 }
 
 export interface PostFormState {
-    id: string,
     title: string,
     body: string
 }
@@ -27,7 +26,6 @@ export class PostForm extends React.PureComponent<PostFormProps, PostFormState> 
 
     initialState() {
         return {
-            id: this.props.id,
             title: this.props.title || '',
             body: this.props.body || ''
         };
@@ -52,7 +50,10 @@ export class PostForm extends React.PureComponent<PostFormProps, PostFormState> 
 
         this.setState(this.initialState());
 
-        this.props.onSubmit(this.state);
+        this.props.onSubmit({
+            id: this.props.id,
+            ...this.state
+        });
     }
 
     render() {
