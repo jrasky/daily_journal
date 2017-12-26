@@ -5,7 +5,7 @@ import { Provider } from 'react-redux';
 
 import { createStore } from 'redux';
 
-import Post from './Post';
+import Main from './Main';
 
 import { rootReducer } from './actions';
 
@@ -17,7 +17,7 @@ const store = createStore(
 ReactDOM.render(
     <AppContainer>
         <Provider store={store}>
-            <Post />
+            <Main />
         </Provider>
     </AppContainer>,
     document.getElementById('root')

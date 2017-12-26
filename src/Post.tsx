@@ -1,28 +1,20 @@
 import * as React from 'react';
-import { connect } from 'react-redux';
 
-import { IState } from './actions';
+import { IPost } from './types';
 
 export interface PostProps {
+    id: string,
     title: string,
-    body: string
+    body: string,
+    onRemove: (id: string) => void
 }
 
-
-export class Post extends React.PureComponent<PostProps> {
-    render () {
-        return <div>
-            <h1>{ this.props.title }</h1>
-            <p>{ this.props.body }</p>
-        </div>;
-    }
+export function Post(props: PostProps) {
+    return <div>
+        <h1>{ props.title }</h1>
+        <p>{ props.body }</p>
+        <button onClick={ () => props.onRemove(props.id) }>Remove</button>
+    </div>;
 }
 
-function mapStateToProps(state: IState): PostProps {
-    return {
-        title: state.title,
-        body: state.body
-    }
-}
-
-export default connect(mapStateToProps)(Post);
+export default Post

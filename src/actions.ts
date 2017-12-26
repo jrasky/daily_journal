@@ -1,43 +1,49 @@
-const initialState: IState = {
-    title: 'Test Post',
-    body: 'Test post body'
-};
+import { Map } from 'immutable';
 
-export interface IState {
-    readonly title: string,
-    readonly body: string
-}
+import { IPost } from './types';
+
+const initialState: IState = Map();
+
+export type IState = Map<string, IPost>;
 
 export enum ActionTypes {
-    SET_TITLE = 'SET_TITLE',
-    SET_BODY = 'SET_BODY'
+    ADD_POST = 'ADD_POST',
+    REMOVE_POST = 'REMOVE_POST'
 }
 
-export interface SetTitleAction {
-    readonly type: ActionTypes.SET_TITLE,
-    readonly title: string
+export interface AddPostAction {
+    readonly type: ActionTypes.ADD_POST,
+    readonly post: IPost
 }
 
-export interface SetBodyAction {
-    readonly type: ActionTypes.SET_BODY,
-    readonly body: string
+export interface RemovePostAction {
+    readonly type: ActionTypes.REMOVE_POST,
+    readonly id: string
 }
 
-export type IAction = SetTitleAction | SetBodyAction;
+export function addPost(post: IPost): AddPostAction {
+    return {
+        type: ActionTypes.ADD_POST,
+        post
+    }
+}
+
+export function removePost(id: string): RemovePostAction {
+    return {
+        type: ActionTypes.REMOVE_POST,
+        id
+    }
+}
+
+export type IAction = AddPostAction | RemovePostAction;
 
 export function rootReducer(state: IState = initialState, action: IAction) {
     switch (action.type) {
-        case ActionTypes.SET_TITLE:
-        return {
-            ...state,
-            title: action.title
-        };
-        case ActionTypes.SET_BODY:
-        return {
-            ...state,
-            body: action.body
-        }
+        case ActionTypes.ADD_POST:
+            return state.set(action.post.id, action.post);
+        case ActionTypes.REMOVE_POST:
+            return state.remove(action.id);
         default:
-        return state;
+            return state;
     }
 }
