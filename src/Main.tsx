@@ -1,11 +1,11 @@
 import * as React from 'react';
 
 import PostList from './PostList';
-import PostForm from './PostForm';
+import NewPost from './NewPost';
 
 export default function Main() {
-    return (<div>
+    return <div>
         <PostList />
-        <PostForm />
-    </div>);
+        <NewPost />
+    </div>;
 }

@@ -4,22 +4,18 @@ import { connect } from 'react-redux';
 
 import { IState, removePost } from './actions';
 import { IPost } from './types';
-import Post from './Post';
+import PostController from './PostController';
 
 export interface PostListProps {
-    posts: IPost[],
-    onRemovePost: (id: string) => void
+    posts: IPost[]
 }
 
 export function PostList(props: PostListProps) {
     return <div>
-        {props.posts.map(post => <Post
+        {props.posts.map(post => <PostController
             key={post.id}
-            id={post.id}
-            onRemove={props.onRemovePost}
-            title={post.title}
-            body={post.body}
-            />)}
+            post={post}
+        />)}
     </div>;
 }
 
@@ -29,10 +25,4 @@ function mapStateToProps(state: IState) {
     }
 }
 
-function mapDispatchToProps(dispatch: Dispatch<IState>) {
-    return {
-        onRemovePost: (id: string) => dispatch(removePost(id))
-    }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(PostList)
+export default connect(mapStateToProps)(PostList)

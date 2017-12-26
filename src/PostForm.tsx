@@ -7,10 +7,14 @@ import { IState, addPost } from './actions';
 import { Dispatch } from 'redux';
 
 export interface PostFormProps {
-    onAddPost: (post: IPost) => void
+    id?: string,
+    title?: string,
+    body?: string,
+    onSubmit: (post: IPost) => void
 }
 
 export interface PostFormState {
+    id: string,
     title: string,
     body: string
 }
@@ -19,10 +23,15 @@ export class PostForm extends React.PureComponent<PostFormProps, PostFormState> 
     constructor(props: PostFormProps) {
         super(props);
         
-        this.state = {
-            title: '',
-            body: ''
-        }
+        this.state = this.initialState();
+    }
+
+    initialState() {
+        return {
+            id: this.props.id || uuid(),
+            title: this.props.title || '',
+            body: this.props.body || ''
+        };
     }
 
     handleChangeTitle(event: React.FormEvent<HTMLInputElement>) {
@@ -42,41 +51,26 @@ export class PostForm extends React.PureComponent<PostFormProps, PostFormState> 
     handleSubmit(event: React.FormEvent<HTMLFormElement>) {
         event.preventDefault();
 
-        this.props.onAddPost({
-            id: uuid(),
-            title: this.state.title,
-            body: this.state.body
-        });
+        this.setState(this.initialState());
 
-        this.setState({
-            title: '',
-            body: ''
-        });
+        this.props.onSubmit(this.state);
     }
 
     render() {
-        const handleChangeTitle = this.handleChangeTitle.bind(this);
-        const handleChangeBody = this.handleChangeBody.bind(this);
-        const handleSubmit = this.handleSubmit.bind(this);
-
         return (
-            <form onSubmit={handleSubmit}>
-                <label>Title: <input value={this.state.title} onChange={handleChangeTitle}/></label>
-                <label>Body: <input value={this.state.body} onChange={handleChangeBody}/></label>
+            <form onSubmit={event => this.handleSubmit(event)}>
+                <label>Title: <input
+                    value={this.state.title}
+                    onChange={event => this.handleChangeTitle(event)} />
+                </label>
+                <label>Body: <input
+                    value={this.state.body}
+                    onChange={event => this.handleChangeBody(event)} />
+                </label>
                 <input type='submit' />
             </form>
         )
     }
 }
 
-function mapStateToProps(state: IState) {
-    return {};
-}
-
-function mapDispatchToProps(dispatch: Dispatch<IState>) {
-    return {
-        onAddPost: (post: IPost) => { dispatch(addPost(post)) }
-    }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(PostForm);
+export default PostForm;
