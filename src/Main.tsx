@@ -3,7 +3,7 @@ import * as moment from 'moment';
 import { connect } from 'react-redux';
 import { Map } from 'immutable';
 
-import { IState, addPost } from './actions';
+import { IState, addPostRemote, fetchPosts } from './actions';
 import { IPost } from './types';
 import PostList from './PostList';
 import PostController from './PostController';
@@ -11,6 +11,7 @@ import { Dispatch } from 'redux';
 
 export interface MainProps {
     onAddPost: (post: IPost) => void,
+    onFetchPosts: () => void,
     posts: Map<string, IPost>
 }
 
@@ -23,6 +24,10 @@ export class Main extends React.PureComponent<MainProps> {
             <PostList
                 posts={this.props.posts.remove(Main.getCurrentPostId()).valueSeq().toArray()} />
         </div>;
+    }
+
+    componentWillMount() {
+        this.props.onFetchPosts();
     }
 
     onPostSubmit(post: IPost) {
@@ -50,7 +55,8 @@ function mapStateToProps(state: IState) {
 
 function mapDispatchToProps(dispatch: Dispatch<IState>) {
     return {
-        onAddPost: (post: IPost) => { dispatch(addPost(post)) }
+        onAddPost: (post: IPost) => { dispatch(addPostRemote(post)) },
+        onFetchPosts: () => { dispatch(fetchPosts()) }
     }
 }
 

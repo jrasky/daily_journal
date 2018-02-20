@@ -1,17 +1,22 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
+import thunkMiddleware from 'redux-thunk';
 import { AppContainer } from 'react-hot-loader';
 import { Provider } from 'react-redux';
 
-import { createStore } from 'redux';
+import { createStore, applyMiddleware, compose } from 'redux';
 
 import Main from './Main';
 
 import { rootReducer } from './actions';
 
+const composeEnhancers = (window as any).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+
 const store = createStore(
     rootReducer,
-    (window as any).__REDUX_DEVTOOLS_EXTENSION__ && (window as any).__REDUX_DEVTOOLS_EXTENSION__()
+    composeEnhancers(
+        applyMiddleware(thunkMiddleware)
+    )
 );
 
 ReactDOM.render(

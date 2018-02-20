@@ -5,7 +5,7 @@ import { IPost } from './types';
 import Post from './Post';
 import PostForm from './PostForm';
 import { Dispatch } from 'redux';
-import { IState, addPost, removePost } from './actions';
+import { IState, addPostRemote, removePostRemote } from './actions';
 
 export interface PostControllerProps {
     post: IPost,
@@ -67,8 +67,8 @@ export class PostController extends React.PureComponent<PostControllerProps, Pos
 
 function mapDispatchToProps(dispatch: Dispatch<IState>) {
     return {
-        onAddPost: (post: IPost) => { dispatch(addPost(post)) },
-        onRemovePost: (id: string) => { dispatch(removePost(id)) }
+        onAddPost: (post: IPost) => { dispatch(addPostRemote(post)) },
+        onRemovePost: (id: string) => { dispatch(removePostRemote(id)) }
     }
 }
 
