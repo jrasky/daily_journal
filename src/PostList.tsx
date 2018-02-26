@@ -1,19 +1,27 @@
-import * as React from 'react';
+import * as React from "react";
 
-import { IPost } from './types';
-import PostController from './PostController';
+import PostController from "./PostController";
+import { IPost } from "./types";
 
 export interface PostListProps {
-    posts: IPost[]
+    posts: IPost[];
+}
+
+function mapPostsToControllers(posts: IPost[]) {
+    return posts.map(post => (
+        <PostController
+            key={post.id}
+            post={post}
+        />
+    ));
 }
 
 export function PostList(props: PostListProps) {
-    return <div>
-        {props.posts.map(post => <PostController
-            key={post.id}
-            post={post}
-        />)}
-    </div>;
+    return (
+        <div>
+            {mapPostsToControllers(props.posts)}
+        </div>
+    );
 }
 
 export default PostList;

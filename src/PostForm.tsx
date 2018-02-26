@@ -1,75 +1,77 @@
-import * as React from 'react';
-import { connect } from 'react-redux';
+import * as React from "react";
+import { connect } from "react-redux";
+import { Dispatch } from "redux";
 
-import { IPost } from './types';
-import { IState, addPost } from './actions';
-import { Dispatch } from 'redux';
+import { addPost, IState } from "./actions";
+import { IPost } from "./types";
 
 export interface PostFormProps {
-    id: string,
-    title?: string,
-    body?: string,
-    onSubmit: (post: IPost) => void
+    id: string;
+    title?: string;
+    body?: string;
+    onSubmit: (post: IPost) => void;
 }
 
 export interface PostFormState {
-    title: string,
-    body: string
+    title: string;
+    body: string;
 }
 
 export class PostForm extends React.PureComponent<PostFormProps, PostFormState> {
     constructor(props: PostFormProps) {
         super(props);
-        
+
         this.state = this.initialState();
     }
 
     initialState() {
         return {
-            title: this.props.title || '',
-            body: this.props.body || ''
+            title: this.props.title || "",
+            body: this.props.body || "",
         };
     }
 
-    handleChangeTitle(event: React.FormEvent<HTMLInputElement>) {
+    handleChangeTitle = (event: React.FormEvent<HTMLInputElement>) => {
         this.setState({
             ...this.state,
-            title: event.currentTarget.value
-        });
-    }
-    
-    handleChangeBody(event: React.FormEvent<HTMLInputElement>) {
-        this.setState({
-            ...this.state,
-            body: event.currentTarget.value
+            title: event.currentTarget.value,
         });
     }
 
-    handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+    handleChangeBody = (event: React.FormEvent<HTMLInputElement>) => {
+        this.setState({
+            ...this.state,
+            body: event.currentTarget.value,
+        });
+    }
+
+    handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
 
         this.setState(this.initialState());
 
         this.props.onSubmit({
             id: this.props.id,
-            ...this.state
+            ...this.state,
         });
     }
 
     render() {
         return (
-            <form onSubmit={event => this.handleSubmit(event)}>
+            <form onSubmit={this.handleSubmit}>
                 <label>Title: <input
                     value={this.state.title}
-                    onChange={event => this.handleChangeTitle(event)} />
+                    onChange={this.handleChangeTitle}
+                />
                 </label>
                 <label>Body: <input
                     value={this.state.body}
-                    onChange={event => this.handleChangeBody(event)} />
+                    onChange={this.handleChangeBody}
+                />
                 </label>
-                <input type='submit' />
+                <input type="submit" />
             </form>
-        )
+        );
     }
 }
 

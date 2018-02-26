@@ -1,22 +1,20 @@
-import * as React from 'react';
-import * as ReactDOM from 'react-dom';
-import thunkMiddleware from 'redux-thunk';
-import { AppContainer } from 'react-hot-loader';
-import { Provider } from 'react-redux';
+import * as React from "react";
+import * as ReactDOM from "react-dom";
+import { AppContainer } from "react-hot-loader";
+import { Provider } from "react-redux";
+import { applyMiddleware, compose, createStore} from "redux";
+import thunkMiddleware from "redux-thunk";
 
-import { createStore, applyMiddleware, compose } from 'redux';
-
-import Main from './Main';
-
-import { rootReducer } from './actions';
+import { rootReducer } from "./actions";
+import Main from "./Main";
 
 const composeEnhancers = (window as any).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 const store = createStore(
     rootReducer,
     composeEnhancers(
-        applyMiddleware(thunkMiddleware)
-    )
+        applyMiddleware(thunkMiddleware),
+    ),
 );
 
 ReactDOM.render(
@@ -25,7 +23,7 @@ ReactDOM.render(
             <Main />
         </Provider>
     </AppContainer>,
-    document.getElementById('root')
+    document.getElementById("root"),
 );
 
 if ((module as any).hot) {
