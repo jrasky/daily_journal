@@ -2,6 +2,7 @@ import * as React from "react";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
 
+import { withAuthenticator } from "aws-amplify-react";
 import { Map } from "immutable";
 import * as moment from "moment";
 
@@ -65,4 +66,4 @@ function mapDispatchToProps(dispatch: Dispatch<IState>) {
     };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Main);
+export default withAuthenticator(connect(mapStateToProps, mapDispatchToProps)(Main));

@@ -5,8 +5,18 @@ import { Provider } from "react-redux";
 import { applyMiddleware, compose, createStore} from "redux";
 import thunkMiddleware from "redux-thunk";
 
+import Amplify from "aws-amplify";
+
 import { rootReducer } from "./actions";
 import Main from "./Main";
+
+// Register with Cognito
+Amplify.configure({
+    Auth: {
+        identityPoolId: "d1325331-c956-427b-87ed-75dde6851876",
+        region: "us-west-2",
+    },
+});
 
 const composeEnhancers = (window as any).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 

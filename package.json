@@ -11,6 +11,8 @@
     "@types/react-redux": "^5.0.14",
     "@types/uuid": "^3.4.3",
     "awesome-typescript-loader": "^3.4.1",
+    "aws-amplify": "^0.2.7",
+    "aws-amplify-react": "^0.1.33",
     "browser-sync": "^2.18.13",
     "cross-fetch": "^1.1.1",
     "gulp": "^3.9.1",
