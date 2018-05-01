@@ -13,8 +13,10 @@ import Main from "./Main";
 // Register with Cognito
 Amplify.configure({
     Auth: {
-        identityPoolId: "d1325331-c956-427b-87ed-75dde6851876",
+        identityPoolId: "us-west-2:d1325331-c956-427b-87ed-75dde6851876",
         region: "us-west-2",
+        userPoolId: "us-west-2_tsY8TbBZf",
+        userPoolWebClientId: "63livl550ck1t281r3brnrblpp",
     },
 });
 
