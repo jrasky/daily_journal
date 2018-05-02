@@ -3,11 +3,10 @@ import { connect } from "react-redux";
 import { Dispatch } from "redux";
 
 import { withAuthenticator } from "aws-amplify-react";
-import { CognitoUser } from "amazon-cognito-identity-js";
 import { Map } from "immutable";
 import * as moment from "moment";
 
-import { setUserId, addPostRemote, fetchPosts, IState } from "./actions";
+import { addPostRemote, fetchPosts, IState } from "./actions";
 import PostController from "./PostController";
 import PostList from "./PostList";
 import { IPost } from "./types";
@@ -15,9 +14,7 @@ import { IPost } from "./types";
 export interface MainProps {
     onAddPost: (post: IPost) => void;
     onFetchPosts: () => void;
-    onSetUserId: (userId: string) => void;
     posts: Map<string, IPost>;
-    authData: CognitoUser;
 }
 
 export class Main extends React.PureComponent<MainProps> {
@@ -36,8 +33,6 @@ export class Main extends React.PureComponent<MainProps> {
     }
 
     componentWillMount() {
-        // TODO maybe make the whole userId thing a part of IPost?
-        this.props.onSetUserId(this.props.authData.getUsername());
         this.props.onFetchPosts();
     }
 
@@ -68,8 +63,10 @@ function mapDispatchToProps(dispatch: Dispatch<IState>) {
     return {
         onAddPost: (post: IPost) => { dispatch(addPostRemote(post)); },
         onFetchPosts: () => { dispatch(fetchPosts()); },
-        onSetUserId: (userId: string) => { dispatch(setUserId(userId)); },
     };
 }
 
-export default withAuthenticator(connect(mapStateToProps, mapDispatchToProps)(Main));
+export default withAuthenticator(
+    connect(mapStateToProps, mapDispatchToProps)(Main),
+    { includeGreetings: true },
+);

@@ -1,4 +1,5 @@
 const webpack = require('webpack');
+const path = require('path');
 
 module.exports = {
     entry: [
@@ -26,7 +27,10 @@ module.exports = {
             {
                 enforce: 'pre',
                 test: /.js$/,
-                loader: 'source-map-loader'
+                loader: 'source-map-loader',
+                exclude: [
+                    path.resolve(__dirname, 'node_modules')
+                ]
             }
         ]
     },
