@@ -38,5 +38,6 @@
     "webpack-dev-middleware": "^2.0.3",
     "webpack-hot-middleware": "^2.21.0",
     "webpack-stream": "^4.0.0"
-  }
+  },
+  "devDependencies": {}
 }

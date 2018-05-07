@@ -43,53 +43,50 @@ export function removePost(id: string) {
 }
 
 export function addPostRemote(post: IPost) {
-    return function(dispatch: Dispatch<IState>) {
-        return Auth.currentSession().then(session =>
-            fetch(`https://wx20qxsvs7.execute-api.us-west-2.amazonaws.com/beta/${post.id}/`, {
-                method: "PUT",
-                body: JSON.stringify(post),
-                headers: {
-                    "Content-Type": "application/json",
-                    "Authorization": session.getIdToken().getJwtToken(),
-                },
-            }),
-        ).then(
-            () => { dispatch(addPost(post)); },
-            error => console.log("An error occurred", error),
-        );
+    return async function(dispatch: Dispatch<IState>) {
+        const session = await Auth.currentSession();
+
+        await fetch(`https://wx20qxsvs7.execute-api.us-west-2.amazonaws.com/beta/${post.id}/`, {
+            method: "PUT",
+            body: JSON.stringify(post),
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": session.getIdToken().getJwtToken(),
+            },
+        });
+
+        dispatch(addPost(post));
     };
 }
 
 export function removePostRemote(id: string) {
-    return function(dispatch: Dispatch<IState>) {
-        return Auth.currentSession().then(session =>
-            fetch(`https://wx20qxsvs7.execute-api.us-west-2.amazonaws.com/beta/${id}/`, {
-                method: "DELETE",
-                headers: {
-                    Authorization: session.getIdToken().getJwtToken(),
-                },
-            }),
-        ).then(
-            () => { dispatch(removePost(id)); },
-            error => console.log("An error occurred", error),
-        );
+    return async function(dispatch: Dispatch<IState>) {
+        const session = await Auth.currentSession();
+
+        await fetch(`https://wx20qxsvs7.execute-api.us-west-2.amazonaws.com/beta/${id}/`, {
+            method: "DELETE",
+            headers: {
+                Authorization: session.getIdToken().getJwtToken(),
+            },
+        });
+
+        dispatch(removePost(id));
     };
 }
 
 export function fetchPosts() {
-    return function(dispatch: Dispatch<IState>) {
-        return Auth.currentSession().then(session =>
-            fetch(`https://wx20qxsvs7.execute-api.us-west-2.amazonaws.com/beta/`, {
-                headers: {
-                    Authorization: session.getIdToken().getJwtToken(),
-                },
-            }),
-        ).then(
-            response => response.json(),
-            error => console.log("An error occurred", error),
-        ).then((data: IPostList) => {
-            data.entries.forEach(entry => dispatch(addPost(entry)));
+    return async function(dispatch: Dispatch<IState>) {
+        const session = await Auth.currentSession();
+
+        const response = await fetch(`https://wx20qxsvs7.execute-api.us-west-2.amazonaws.com/beta/`, {
+            headers: {
+                Authorization: session.getIdToken().getJwtToken(),
+            },
         });
+
+        const data = await response.json();
+
+        return data.entries.forEach(entry => dispatch(addPost(entry)));
     };
 }
 

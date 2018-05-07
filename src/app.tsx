@@ -15,8 +15,15 @@ Amplify.configure({
     Auth: {
         identityPoolId: "us-west-2:d1325331-c956-427b-87ed-75dde6851876",
         region: "us-west-2",
-        userPoolId: "us-west-2_tsY8TbBZf",
-        userPoolWebClientId: "63livl550ck1t281r3brnrblpp",
+        userPoolId: "us-west-2_4k9vzJHIk",
+        userPoolWebClientId: "6l0g67cnl69smg5s3q0108tfs3",
+        oauth: {
+            domain: "daily-journal.auth.us-west-2.amazoncognito.com",
+            scope: ["phone", "email", "profile", "openid", "aws.cognito.signin.user.admin"],
+            redirectSignIn: "http://localhost:3000",
+            redirectSignOut: "http://localhost:3000",
+            responseType: "code",
+        },
     },
 });
 

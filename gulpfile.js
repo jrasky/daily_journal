@@ -37,7 +37,7 @@ gulp.task('serve', ['html'], function () {
     gulp.watch('src/*.html', ['html-watch']);
 })
 
-gulp.task('webpack', function (k) {
+gulp.task('webpack', function () {
     gulp.src('src/app.tsx')
         .pipe(webpackStream(webpackConfig))
         .pipe(gulp.dest('dist'));
