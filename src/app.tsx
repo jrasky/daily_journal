@@ -6,8 +6,11 @@ import { applyMiddleware, compose, createStore} from "redux";
 import thunkMiddleware from "redux-thunk";
 
 import Amplify from "aws-amplify";
+import { Authenticator } from "aws-amplify-react";
 
 import { rootReducer } from "./actions";
+
+import AuthFlow from "./AuthFlow";
 import Main from "./Main";
 
 // Register with Cognito
@@ -36,15 +39,36 @@ const store = createStore(
     ),
 );
 
-ReactDOM.render(
-    <AppContainer>
-        <Provider store={store}>
-            <Main />
-        </Provider>
-    </AppContainer>,
-    document.getElementById("root"),
-);
+function renderApp(RealAuthFlow, RealMainContainer) {
+    ReactDOM.render(
+        <AppContainer>
+            <Provider store={store}>
+                <Authenticator hideDefault={true}>
+                    <RealAuthFlow />
+                    <RealMainContainer />
+                </Authenticator>
+            </Provider>
+        </AppContainer>,
+        document.getElementById("root"),
+    );
+}
+
+function MainContainer(props) {
+    return props.authState === "signedIn" && (
+        <Main />
+    );
+}
+
+renderApp(AuthFlow, MainContainer);
 
 if ((module as any).hot) {
-    (module as any).hot.accept();
+    (module as any).hot.accept(["./AuthFlow", "./Main"], function() {
+        renderApp(require("./AuthFlow").default, require("./Main").default);
+    });
+
+    (module as any).hot.accept("./actions", function() {
+        const nextActions = require("./actions");
+
+        store.replaceReducer(nextActions.rootReducer);
+    });
 }

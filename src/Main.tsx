@@ -12,9 +12,9 @@ import PostList from "./PostList";
 import { IPost } from "./types";
 
 export interface MainProps {
-    onAddPost: (post: IPost) => void;
     onFetchPosts: () => void;
     posts: Map<string, IPost>;
+    authState?: string;
 }
 
 export class Main extends React.PureComponent<MainProps> {
@@ -34,10 +34,6 @@ export class Main extends React.PureComponent<MainProps> {
 
     componentWillMount() {
         this.props.onFetchPosts();
-    }
-
-    onPostSubmit(post: IPost) {
-        this.props.onAddPost(post);
     }
 
     static getDefaultCurrentPost() {
@@ -61,12 +57,8 @@ function mapStateToProps(state: IState) {
 
 function mapDispatchToProps(dispatch: Dispatch<IState>) {
     return {
-        onAddPost: (post: IPost) => { dispatch(addPostRemote(post)); },
         onFetchPosts: () => { dispatch(fetchPosts()); },
     };
 }
 
-export default withAuthenticator(
-    connect(mapStateToProps, mapDispatchToProps)(Main),
-    { includeGreetings: true },
-);
+export default connect(mapStateToProps, mapDispatchToProps)(Main);
