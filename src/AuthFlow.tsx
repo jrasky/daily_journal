@@ -19,8 +19,8 @@ export class AuthFlow extends React.Component<AuthFlowProps> {
         if (this.props.authState === "signedIn") {
             return (
                 <div>
-                    <h1>{this.state.name}</h1>
-                    <button onClick={AuthFlow.onClickSignOut}>
+                    <h1 className={"display-2"}>{this.state.name}</h1>
+                    <button className={"btn btn-secondary"} onClick={AuthFlow.onClickSignOut}>
                         Sign Out
                     </button>
                 </div>
@@ -28,7 +28,8 @@ export class AuthFlow extends React.Component<AuthFlowProps> {
         } else {
             return (
                 <div>
-                    <button onClick={this.props.OAuthSignIn}>
+                    <h1 className={"display-2"}>Hello!</h1>
+                    <button className={"btn btn-raised btn-primary"} onClick={this.props.OAuthSignIn}>
                         Sign In
                     </button>
                 </div>

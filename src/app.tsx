@@ -6,7 +6,7 @@ import { applyMiddleware, compose, createStore} from "redux";
 import thunkMiddleware from "redux-thunk";
 
 import Amplify from "aws-amplify";
-import { Authenticator } from "aws-amplify-react";
+import { AmplifyTheme, Authenticator } from "aws-amplify-react";
 
 import { rootReducer } from "./actions";
 
@@ -39,11 +39,17 @@ const store = createStore(
     ),
 );
 
+// Remove the default styling of Authenticator's container
+const blankTheme = {
+    ...AmplifyTheme,
+    container: null,
+};
+
 function renderApp(RealAuthFlow, RealMainContainer) {
     ReactDOM.render(
         <AppContainer>
             <Provider store={store}>
-                <Authenticator hideDefault={true}>
+                <Authenticator hideDefault={true} theme={blankTheme}>
                     <RealAuthFlow />
                     <RealMainContainer />
                 </Authenticator>

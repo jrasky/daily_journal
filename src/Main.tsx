@@ -6,9 +6,8 @@ import { withAuthenticator } from "aws-amplify-react";
 import { Map } from "immutable";
 import * as moment from "moment";
 
-import { addPostRemote, fetchPosts, IState } from "./actions";
+import { fetchPosts, IState } from "./actions";
 import PostController from "./PostController";
-import PostList from "./PostList";
 import { IPost } from "./types";
 
 export interface MainProps {
@@ -19,15 +18,18 @@ export interface MainProps {
 
 export class Main extends React.PureComponent<MainProps> {
     render() {
+        const hasTopPost = this.props.posts.has(Main.getCurrentPostId());
+        const topPost = this.props.posts.get(Main.getCurrentPostId(), Main.getDefaultCurrentPost());
+        const otherPosts = this.props.posts.remove(Main.getCurrentPostId()).valueSeq().toArray();
+
         return (
             <div>
-                <PostController
-                    post={this.props.posts.get(Main.getCurrentPostId(), Main.getDefaultCurrentPost())}
-                    editing={!this.props.posts.has(Main.getCurrentPostId())}
-                />
-                <PostList
-                    posts={this.props.posts.remove(Main.getCurrentPostId()).valueSeq().toArray()}
-                />
+                <div id={"top-post"}>
+                    <PostController post={topPost} editing={!hasTopPost}/>
+                </div>
+                <div className={"d-flex flex-wrap"}>
+                    {Main.mapPostsToControllers(otherPosts)}
+                </div>
             </div>
         );
     }
@@ -46,6 +48,15 @@ export class Main extends React.PureComponent<MainProps> {
 
     static getCurrentPostId() {
         return moment().subtract(4, "hours").format("YYYYDDDD");
+    }
+
+    static mapPostsToControllers(posts: IPost[]) {
+        return posts.map(post => (
+            <PostController
+                key={post.id}
+                post={post}
+            />
+        ));
     }
 }
 

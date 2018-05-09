@@ -1,8 +1,5 @@
 import * as React from "react";
-import { connect } from "react-redux";
-import { Dispatch } from "redux";
 
-import { addPost, IState } from "./actions";
 import { IPost } from "./types";
 
 export interface PostFormProps {
@@ -38,7 +35,7 @@ export class PostForm extends React.PureComponent<PostFormProps, PostFormState> 
         });
     }
 
-    handleChangeBody = (event: React.FormEvent<HTMLInputElement>) => {
+    handleChangeBody = (event: React.FormEvent<HTMLTextAreaElement>) => {
         this.setState({
             ...this.state,
             body: event.currentTarget.value,
@@ -59,17 +56,35 @@ export class PostForm extends React.PureComponent<PostFormProps, PostFormState> 
     render() {
         return (
             <form onSubmit={this.handleSubmit}>
-                <label>Title: <input
-                    value={this.state.title}
-                    onChange={this.handleChangeTitle}
-                />
-                </label>
-                <label>Body: <input
-                    value={this.state.body}
-                    onChange={this.handleChangeBody}
-                />
-                </label>
-                <input type="submit" />
+                <div className={"form-group"}>
+                    <label
+                        className={"bmd-label-placeholder"}
+                        htmlFor={`post-form-title-${this.props.id}`}
+                    >
+                        Title
+                    </label>
+                    <input
+                        id={`post-form-title-${this.props.id}`}
+                        className={"form-control"}
+                        value={this.state.title}
+                        onChange={this.handleChangeTitle}
+                    />
+                </div>
+                <div className={"form-group"}>
+                    <label
+                        className={"bmd-label-placeholder"}
+                        htmlFor={`post-form-body-${this.props.id}`}
+                    >
+                        Body
+                    </label>
+                    <textarea
+                        id={`post-form-body-${this.props.id}`}
+                        className={"form-control"}
+                        value={this.state.body}
+                        onChange={this.handleChangeBody}
+                    />
+                </div>
+                <button type="submit" className={"btn btn-primary btn-raised"}>Submit</button>
             </form>
         );
     }
