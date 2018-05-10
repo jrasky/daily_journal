@@ -27,7 +27,7 @@ export class Main extends React.PureComponent<MainProps> {
                 <div id={"top-post"}>
                     <PostController post={topPost} editing={!hasTopPost}/>
                 </div>
-                <div className={"d-flex flex-wrap"}>
+                <div className={"d-flex flex-wrap align-items-start"}>
                     {Main.mapPostsToControllers(otherPosts)}
                 </div>
             </div>
