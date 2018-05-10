@@ -2,6 +2,8 @@ import * as React from "react";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
 
+import ReactMarkdown = require("react-markdown");
+
 import { addPostRemote, IState, removePostRemote } from "./actions";
 import PostForm from "./PostForm";
 import { IPost } from "./types";
@@ -63,7 +65,7 @@ export class PostController extends React.PureComponent<PostControllerProps, Pos
                 <div className={"card m-1"}>
                     <div className={"card-body"}>
                         <h1 className={"card-title"}>{this.props.post.title}</h1>
-                        <p className={"card-text"}>{this.props.post.body}</p>
+                        <ReactMarkdown className={"card-text"} source={this.props.post.body} />
                         <button
                             type={"button"}
                             className={"btn btn-primary"}
