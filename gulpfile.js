@@ -1,4 +1,3 @@
-const path = require('path');
 const gulp = require('gulp');
 const clean = require('gulp-clean');
 const webpack = require('webpack');
@@ -7,9 +6,10 @@ const browserSync = require('browser-sync').create();
 const webpackDevMiddleware = require('webpack-dev-middleware');
 const webpackHotMiddleware = require('webpack-hot-middleware');
 
+const webpackDevConfig = require('./webpack.config.dev');
 const webpackConfig = require('./webpack.config');
 
-const bundler = webpack(webpackConfig);
+const devBundler = webpack(webpackDevConfig);
 
 gulp.task('default', ['webpack', 'html'], function (k) { k(); });
 
@@ -21,14 +21,14 @@ gulp.task('clean', function () {
 gulp.task('serve', ['html'], function () {
     browserSync.init({
         server: {
-            baseDir: webpackConfig.output.path,
+            baseDir: webpackDevConfig.output.path,
             middleware: [
-                webpackDevMiddleware(bundler, {
-                    publicPath: webpackConfig.output.publicPath,
+                webpackDevMiddleware(devBundler, {
+                    publicPath: webpackDevConfig.output.publicPath,
                     stats: { colors: true }
                 }),
-                webpackHotMiddleware(bundler, {
-                    publicPath: webpackConfig.output.publicPath
+                webpackHotMiddleware(devBundler, {
+                    publicPath: webpackDevConfig.output.publicPath
                 })
             ]
         }

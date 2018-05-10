@@ -1,13 +1,10 @@
 const webpack = require('webpack');
-const path = require('path');
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 
 module.exports = {
     entry: [
-        'webpack-hot-middleware/client',
-        'react-hot-loader/patch',
         __dirname + '/src/app.tsx'
     ],
-    devtool: 'source-map',
     output: {
         path: __dirname + '/dist',
         publicPath: '/',
@@ -23,21 +20,22 @@ module.exports = {
                 test: /\.tsx?$/,
                 enforce: 'pre',
                 loader: 'tslint-loader'
-            },
-            {
-                enforce: 'pre',
-                test: /.js$/,
-                loader: 'source-map-loader',
-                exclude: [
-                    path.resolve(__dirname, 'node_modules')
-                ]
             }
         ]
     },
     resolve: {
         extensions: ['.ts', '.tsx', '.js', '.jsx']
     },
+    externals: {
+        react: 'React',
+        'react-dom': 'ReactDOM',
+        moment: 'moment',
+        'aws-amplify': 'window["aws-amplify"]'
+    },
     plugins: [
-        new webpack.HotModuleReplacementPlugin()
+        //new UglifyJsPlugin(),
+        new webpack.DefinePlugin({
+            'process.env.NODE_ENV': JSON.stringify('production')
+        })
     ]
 };
