@@ -58,7 +58,7 @@ export class PostForm extends React.PureComponent<PostFormProps, PostFormState> 
             <form onSubmit={this.handleSubmit}>
                 <div className={"form-group"}>
                     <label
-                        className={"bmd-label-placeholder"}
+                        className={"bmd-label-static"}
                         htmlFor={`post-form-title-${this.props.id}`}
                     >
                         Title
@@ -72,7 +72,7 @@ export class PostForm extends React.PureComponent<PostFormProps, PostFormState> 
                 </div>
                 <div className={"form-group"}>
                     <label
-                        className={"bmd-label-placeholder"}
+                        className={"bmd-label-static"}
                         htmlFor={`post-form-body-${this.props.id}`}
                     >
                         Body
