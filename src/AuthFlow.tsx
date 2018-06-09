@@ -1,7 +1,7 @@
 import * as React from "react";
 
 import { Auth } from "aws-amplify";
-import { withAuthenticator, withOAuth } from "aws-amplify-react";
+import { withOAuth } from "aws-amplify-react";
 
 export interface AuthFlowProps {
     OAuthSignIn: () => void;

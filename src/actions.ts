@@ -1,7 +1,6 @@
 import { Auth } from "aws-amplify";
 import { Map } from "immutable";
-import { Dispatch } from "redux";
-import { ThunkDispatch, ThunkAction } from "redux-thunk";
+import { ThunkAction, ThunkDispatch } from "redux-thunk";
 
 import { IPost } from "./types";
 
