@@ -1,10 +1,9 @@
 import * as React from "react";
 import { connect } from "react-redux";
-import { Dispatch } from "redux";
 
 import ReactMarkdown = require("react-markdown");
 
-import { addPostRemote, IState, removePostRemote } from "./actions";
+import { addPostRemote, IDispatch, removePostRemote } from "./actions";
 import PostForm from "./PostForm";
 import { IPost } from "./types";
 
@@ -87,7 +86,7 @@ export class PostController extends React.PureComponent<PostControllerProps, Pos
     }
 }
 
-function mapDispatchToProps(dispatch: Dispatch<IState>) {
+function mapDispatchToProps(dispatch: IDispatch) {
     return {
         onAddPost: (post: IPost) => { dispatch(addPostRemote(post)); },
         onRemovePost: (id: string) => { dispatch(removePostRemote(id)); },

@@ -1,8 +1,9 @@
 import { Auth } from "aws-amplify";
 import { Map } from "immutable";
 import { Dispatch } from "redux";
+import { ThunkDispatch, ThunkAction } from "redux-thunk";
 
-import { IPost, IPostList } from "./types";
+import { IPost } from "./types";
 
 const initialState: IState = {
     posts: Map(),
@@ -11,6 +12,12 @@ const initialState: IState = {
 export interface IState {
     posts: Map<string, IPost>;
 }
+
+export type IAction = AddPostAction | RemovePostAction;
+
+export type IDispatch = ThunkDispatch<IState, {}, IAction>;
+
+type ThunkResult<R> = ThunkAction<R, IState, {}, IAction>;
 
 export enum ActionTypes {
     ADD_POST = "ADD_POST",
@@ -28,22 +35,22 @@ export interface RemovePostAction {
     readonly id: string;
 }
 
-export function addPost(post: IPost) {
+export function addPost(post: IPost): AddPostAction {
     return {
         type: ActionTypes.ADD_POST,
         post,
     };
 }
 
-export function removePost(id: string) {
+export function removePost(id: string): RemovePostAction {
     return {
         type: ActionTypes.REMOVE_POST,
         id,
     };
 }
 
-export function addPostRemote(post: IPost) {
-    return async function(dispatch: Dispatch<IState>) {
+export function addPostRemote(post: IPost): ThunkResult<void> {
+    return async function(dispatch: IDispatch) {
         const session = await Auth.currentSession();
 
         await fetch(`https://wx20qxsvs7.execute-api.us-west-2.amazonaws.com/beta/${post.id}/`, {
@@ -59,8 +66,8 @@ export function addPostRemote(post: IPost) {
     };
 }
 
-export function removePostRemote(id: string) {
-    return async function(dispatch: Dispatch<IState>) {
+export function removePostRemote(id: string): ThunkResult<void> {
+    return async function(dispatch: IDispatch) {
         const session = await Auth.currentSession();
 
         await fetch(`https://wx20qxsvs7.execute-api.us-west-2.amazonaws.com/beta/${id}/`, {
@@ -74,8 +81,8 @@ export function removePostRemote(id: string) {
     };
 }
 
-export function fetchPosts() {
-    return async function(dispatch: Dispatch<IState>) {
+export function fetchPosts(): ThunkResult<void> {
+    return async function(dispatch: IDispatch) {
         const session = await Auth.currentSession();
 
         const response = await fetch(`https://wx20qxsvs7.execute-api.us-west-2.amazonaws.com/beta/`, {
@@ -89,8 +96,6 @@ export function fetchPosts() {
         return data.entries.forEach(entry => dispatch(addPost(entry)));
     };
 }
-
-export type IAction = AddPostAction | RemovePostAction;
 
 export function rootReducer(state: IState = initialState, action: IAction) {
     switch (action.type) {

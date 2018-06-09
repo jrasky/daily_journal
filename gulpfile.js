@@ -37,9 +37,15 @@ gulp.task('serve', ['html'], function () {
     gulp.watch('src/*.html', ['html-watch']);
 })
 
+gulp.task('webpack-dev', function () {
+    gulp.src('src/app.tsx')
+        .pipe(webpackStream(webpackDevConfig, webpack))
+        .pipe(gulp.dest('dist'));
+});
+
 gulp.task('webpack', function () {
     gulp.src('src/app.tsx')
-        .pipe(webpackStream(webpackConfig))
+        .pipe(webpackStream(webpackConfig, webpack))
         .pipe(gulp.dest('dist'));
 });
 

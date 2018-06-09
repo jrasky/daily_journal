@@ -1,12 +1,10 @@
 import * as React from "react";
 import { connect } from "react-redux";
-import { Dispatch } from "redux";
 
-import { withAuthenticator } from "aws-amplify-react";
 import { Map } from "immutable";
 import * as moment from "moment";
 
-import { fetchPosts, IState } from "./actions";
+import { fetchPosts, IDispatch, IState } from "./actions";
 import PostController from "./PostController";
 import { IPost } from "./types";
 
@@ -66,7 +64,7 @@ function mapStateToProps(state: IState) {
     };
 }
 
-function mapDispatchToProps(dispatch: Dispatch<IState>) {
+function mapDispatchToProps(dispatch: IDispatch) {
     return {
         onFetchPosts: () => { dispatch(fetchPosts()); },
     };
