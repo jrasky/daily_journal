@@ -13,6 +13,8 @@ import { rootReducer } from "./actions";
 import AuthFlow from "./AuthFlow";
 import Main from "./Main";
 
+const here = document.location.origin + document.location.pathname;
+
 // Register with Cognito
 Amplify.configure({
     Auth: {
@@ -23,8 +25,8 @@ Amplify.configure({
         oauth: {
             domain: "daily-journal.auth.us-west-2.amazoncognito.com",
             scope: ["phone", "email", "profile", "openid", "aws.cognito.signin.user.admin"],
-            redirectSignIn: "http://localhost:3000",
-            redirectSignOut: "http://localhost:3000",
+            redirectSignIn: here,
+            redirectSignOut: here,
             responseType: "code",
         },
     },
