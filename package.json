@@ -41,5 +41,7 @@
     "webpack-hot-middleware": "^2.21.0",
     "webpack-stream": "^4.0.0"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "webpack-bundle-analyzer": "^2.13.1"
+  }
 }

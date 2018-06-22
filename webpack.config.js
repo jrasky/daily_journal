@@ -1,5 +1,3 @@
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
-
 module.exports = {
     mode: 'production',
     entry: [
@@ -30,9 +28,6 @@ module.exports = {
         react: 'React',
         'react-dom': 'ReactDOM',
         moment: 'moment',
-        'aws-amplify': 'window["aws-amplify"]'
-    },
-    plugins: [
-        //new UglifyJsPlugin()
-    ]
+        immutable: 'Immutable'
+    }
 };
